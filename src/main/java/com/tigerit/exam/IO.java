@@ -13,11 +13,11 @@ import java.io.InputStreamReader;
  */
 public class IO {
 
-    private static final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+    private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    private IO() {}
+    //private IO() {}
 
-    public static String readLine() {
+    public String readLine() {
         String value;
         try {
             value = reader.readLine();
@@ -27,11 +27,11 @@ public class IO {
         return value;
     }
 
-    public static Integer readLineAsInteger() {
+    public Integer readLineAsInteger() {
         return Integer.parseInt(readLine());
     }
 
-    public static void printLine(Object value) {
+    public void printLine(Object value) {
         System.out.println(value);
     }
 }
