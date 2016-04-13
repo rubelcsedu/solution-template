@@ -16,27 +16,10 @@ public class Solution implements Runnable {
     @Override
     public void run()
     {
-        // your application entry point
-
-        // sample input process
-        //String string = readLine();
-
-        //Integer integer = readLineAsInteger();
-
-        // sample output process
-        //printLine(string);
-        //printLine(integer);
         int i,j,k,l;
         int T, nT, nC, nD, nQ;
+
         IO reader = new IO();
-        //String value = reader.readLine();
-        //String[] strs = value.split(" +");
-        //int n = strs.length;
-        //for (i = 0; i < 3; i++) {
-        //     System.out.println(Integer.parseInt(strs[i]));
-        //}
-        //int val = reader.readLineAsInteger();
-        //System.out.println(val);
         T = reader.readLineAsInteger();
         //System.out.println(T);
         for(l=0;l<T;l++)
@@ -73,9 +56,7 @@ public class Solution implements Runnable {
                 tables.add(temp2);
             }
 
-
-            // SQL input & Processing.............................................................
-
+            // SQL input & Processing...
             nQ = reader.readLineAsInteger();
             for(k=0;k<nQ;k++)
             {
@@ -118,7 +99,6 @@ public class Solution implements Runnable {
 
                 String line4 = reader.readLine();
                 //System.out.println(line1);
-                //words = line4.split("[ .]");//this can not handle multiple space
                 words = line4.split(" +");
                 for(i=0;i<words.length;i++)
                 {
@@ -133,30 +113,12 @@ public class Solution implements Runnable {
                     }
                     //System.out.println(words[i]);
                 }
-                // end of getting 4 line SQL..........................
+                // end of getting 4 line SQL...
                 System.out.println();
                 join(required_tokens);
-                //if(k<nQ-1)reader.readLine();
                 System.out.println();
             }
-            /*
-            // printing.....................
-            for(i=0;i<tables.size();i++)
-            {
-                for(j=0;j<tables.get(i).size();j++)
-                {
-                    //System.out.println(tables_name.get(i).get(j));
-                    for(k=0;k<tables.get(i).get(j).size();k++)
-                    {
-                        //System.out.print("K: "+k);
-                        System.out.print(tables.get(i).get(j).get(k)+" ");
-                    }
-                    System.out.println();
-                }
-                //System.out.println();
-            }*/
         }
-
     }
 
     public static void join( ArrayList<String> tokens )

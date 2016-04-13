@@ -15,8 +15,6 @@ public class IO {
 
     private final BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 
-    //private IO() {}
-
     public String readLine() {
         String value;
         try {
