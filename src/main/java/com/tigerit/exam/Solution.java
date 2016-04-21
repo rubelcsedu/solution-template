@@ -13,6 +13,7 @@ public class Solution implements Runnable {
 
     public static ArrayList< ArrayList<String> > tables_name = new ArrayList< ArrayList<String> >();
     public static ArrayList< ArrayList< ArrayList<Integer> > > tables = new ArrayList<ArrayList<ArrayList<Integer>>>();
+    public static ArrayList< ArrayList<Integer> > data = new ArrayList<ArrayList<Integer>>();
     @Override
     public void run()
     {
@@ -21,7 +22,6 @@ public class Solution implements Runnable {
 
         IO reader = new IO();
         T = reader.readLineAsInteger();
-        //System.out.println(T);
         for(l=0;l<T;l++)
         {
             System.out.println("Test: "+(l+1));
@@ -35,7 +35,6 @@ public class Solution implements Runnable {
                 String[] nCnDS = nCnD.split(" +");
                 nC = Integer.parseInt(nCnDS[0]);
                 nD = Integer.parseInt(nCnDS[1]);
-                //System.out.println(nC+" "+nD+" ");
                 String col = reader.readLine();
                 String[] colmn = col.split(" +");
                 for(int c=0;c<nC;c++)tem.add(colmn[c]);
@@ -62,12 +61,10 @@ public class Solution implements Runnable {
             {
                 ArrayList<String> required_tokens = new ArrayList<String>();
                 String line1 = reader.readLine();
-                //System.out.println(line1);
                 String[] words = line1.split(" +");
                 if(words[1].equals("*"))
                 {
                     required_tokens.add("*");
-                    //System.out.println("*");
                 }
                 else
                 {
@@ -79,43 +76,38 @@ public class Solution implements Runnable {
                             if(r==1) // table1.a1, here a1 is in index 1
                             {
                                 required_tokens.add(token[r]);
-                                //System.out.println(token[r]);
                             }
                         }
                     }
                 }
 
                 String line2 = reader.readLine();
-                //System.out.println(line1);
                 words = line2.split(" +");
                 required_tokens.add(words[1]);
-                //System.out.println(words[1]);
 
                 String line3 = reader.readLine();
-                //System.out.println(line1);
                 words = line3.split(" +");
                 required_tokens.add(words[1]);
-                //System.out.println(words[1]);
 
                 String line4 = reader.readLine();
-                //System.out.println(line1);
                 words = line4.split(" +");
                 for(i=0;i<words.length;i++)
                 {
-                    String[] token = words[i].split("\\.");// or [.]
+                    String[] token = words[i].split("\\."); // or [.]
                     for(int r=0;r<token.length;r++)
                     {
                         if(r==1)
                         {
                             required_tokens.add(token[r]);
-                            // System.out.println(token[r]);
                         }
                     }
-                    //System.out.println(words[i]);
                 }
                 // end of getting 4 line SQL...
+                reader.readLine();
                 System.out.println();
                 join(required_tokens);
+                sort_print();
+                data.clear();
                 System.out.println();
             }
         }
@@ -123,7 +115,6 @@ public class Solution implements Runnable {
 
     public static void join( ArrayList<String> tokens )
     {
-        //System.out.println("From Method: ");
         int len = tokens.size();
         int t1 = len-4;             // table1 index in tokens
         int t2 = len-3;
@@ -143,26 +134,21 @@ public class Solution implements Runnable {
         {
             if(tokens.get(t2).equals(tables_name.get(i).get(0)))table2_indx = i;
         }
-        //System.out.println("table1: "+table1_indx+" table2: "+table2_indx);
 
         //finding comparison attributes in table
         for(int i=0;i<tables_name.get(table1_indx).size();i++)
         {
-            //System.out.println(tables.get(table1_indx).get(0).get(i));
             if(tokens.get(atb1).equals(tables_name.get(table1_indx).get(i)))attribute1 = i-1;// i-1 cuz index 0 hold table name, thn others are contains the col name
         }
         for(int i=0;i<tables_name.get(table2_indx).size();i++)
         {
             if(tokens.get(atb2).equals(tables_name.get(table2_indx).get(i)))attribute2 = i-1;
         }
-        //System.out.println("attribute1: "+attribute1+" attribute2: "+attribute2);
 
         if( is_result(table1_indx,table2_indx,attribute1,attribute2))
         {
-            //System.out.println("true");
             if(tokens.get(0).equals("*"))
             {
-                //System.out.println("select all....");
                 // printing col name.........................................
                 for(int i=1;i<tables_name.get(table1_indx).size();i++)
                 {
@@ -177,33 +163,26 @@ public class Solution implements Runnable {
                 // printing values.......................................
                 for(int i=0;i<tables.get(table1_indx).size();i++)
                 {
-                    //System.out.println("loop"+i);
-                    //System.out.println(tables.get(table1_indx).get(i).get(attribute1));
                     for(int j=0;j<tables.get(table2_indx).size();j++)
                     {
-                        //System.out.println("loop"+j);
-                        //System.out.println(tables.get(table2_indx).get(j).get(attribute2));
+                        ArrayList<Integer> tem = new ArrayList<Integer>();
                         if(tables.get(table1_indx).get(i).get(attribute1) == tables.get(table2_indx).get(j).get(attribute2))
                         {
-                            //System.out.println(" "+i+" "+j);
                             for(int r=0;r<tables.get(table1_indx).get(i).size();r++)
                             {
-                                System.out.print(tables.get(table1_indx).get(i).get(r)+" ");
-                                //System.out.printf("");
+                                tem.add(tables.get(table1_indx).get(i).get(r));
                             }
                             for(int r=0;r<tables.get(table2_indx).get(j).size();r++)
                             {
-                                if(r==0)System.out.print(tables.get(table2_indx).get(j).get(r));
-                                else System.out.printf(" "+tables.get(table2_indx).get(j).get(r));
+                                tem.add(tables.get(table2_indx).get(j).get(r));
                             }
-                            System.out.println();
+                            data.add(tem);
                         }
                     }
                 }
             }
             else // not select *, some attribute only................
             {
-                int print_done_in_table1=0;
                 ArrayList<String> selected_col = new ArrayList<String>();
                 for(int i=0;i<len-4;i++)selected_col.add(tokens.get(i));
                 // printing col names
@@ -213,7 +192,6 @@ public class Solution implements Runnable {
                     {
                         if(tables_name.get(table1_indx).get(i).equals(selected_col.get(j)))
                         {
-                            //print_done_in_table1 = 1;
                             System.out.print(tables_name.get(table1_indx).get(i)+" ");
                         }
                     }
@@ -234,6 +212,7 @@ public class Solution implements Runnable {
                 {
                     for(int j=0;j<tables.get(table2_indx).size();j++)
                     {
+                        ArrayList<Integer> tem = new ArrayList<Integer>();
                         if(tables.get(table1_indx).get(i).get(attribute1)==tables.get(table2_indx).get(j).get(attribute2))
                         {
                             // printing from 1st table
@@ -243,7 +222,7 @@ public class Solution implements Runnable {
                                 {
                                     if(tables_name.get(table1_indx).get(r+1).equals(selected_col.get(z)))
                                     {
-                                        System.out.printf(tables.get(table1_indx).get(i).get(r)+" ");
+                                        tem.add(tables.get(table1_indx).get(i).get(r));
                                     }
                                 }
                             }
@@ -254,11 +233,11 @@ public class Solution implements Runnable {
                                 {
                                     if(tables_name.get(table2_indx).get(r+1).equals(selected_col.get(z)))
                                     {
-                                        System.out.printf(tables.get(table2_indx).get(j).get(r)+" ");
+                                        tem.add(tables.get(table2_indx).get(j).get(r));
                                     }
                                 }
                             }
-                            System.out.println();
+                            data.add(tem);
                         }
                     }
                 }
@@ -280,5 +259,36 @@ public class Solution implements Runnable {
             }
         }
         return status;
+    }
+
+    public static void sort_print() {
+        int i, j, k, l, m;
+        int len = data.get(0).size();
+        for (i = 0; i < data.size(); i++) {
+            for (j = i + 1; j < data.size(); j++) {
+                for (k = 0; k < len; k++) {
+
+                    if (data.get(i).get(k) == data.get(j).get(k)) continue;
+                    else if (data.get(i).get(k) > data.get(j).get(k)) {
+
+                        for (l = 0; l < len; l++) {
+
+                            int temp = data.get(i).get(l);
+                            data.get(i).set(l, data.get(j).get(l));
+                            data.get(j).set(l, temp);
+                        }
+                        break;
+                    } else break;
+                }
+            }
+        }
+
+        // printing the sorted data........
+        for (i = 0; i < data.size(); i++) {
+            for (j = 0; j < data.get(i).size(); j++) {
+                System.out.print(data.get(i).get(j) + " ");
+            }
+            System.out.println();
+        }
     }
 }
